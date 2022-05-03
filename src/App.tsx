@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Keyboard from "./components/Keyboard"
 
 function App(): JSX.Element {
   const [randWord, setrandWord] = useState<string[]>([""]);
@@ -29,7 +30,9 @@ function App(): JSX.Element {
   return (
     <div>
       <h1>YAMDLE App</h1>
-      {randWord}
+      The word of the day is: {randWord}
+      <hr/>
+      <Keyboard/>
     </div>
   );
 }
