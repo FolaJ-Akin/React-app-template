@@ -1,7 +1,5 @@
-interface alphabetObject{
-    letter: string
-    id:number
-}
+import alphabetObject from "./alphabetInterface";
+
 const alphabet = "qwertyuiopasdfghjklzxcvbnm"
 const alphabetArray = alphabet.split('')
 const alphabetObjectarray: alphabetObject[] = []
