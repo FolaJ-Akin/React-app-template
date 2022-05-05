@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Keyboard from "./components/Keyboard"
+import LetterGrid from "./components/LetterGrid";
 
 function App(): JSX.Element {
   const [randWord, setrandWord] = useState<string[]>([""]);
-  const [chunk,setchunk] = useState<string[]>([])
-
+  const [swich, setswitch] = useState<boolean>(false)
+  const [currentGuess, setCurrentGuess] = useState<string[]>([])
+  const [attempt,setAttempt] = useState<number>()
 
   const options = {
     method: "GET",
@@ -16,25 +18,12 @@ function App(): JSX.Element {
       "X-RapidAPI-Key": "34d2ff4367msh223c9f3ef28bc86p15a053jsnba862eab98be",
     },
   };
-  // function checkAnswer(chunk:string[]){
-  //   if(chunk === randWord[0].split('')){
-  //     const correctAns = true
-  //   }else{
-  //     const correctAns = false
-  //   }
-  // };
-
-  console.log("this is chunk", chunk)
-  // if (chunk[0].length()){
-
-  // }
-
 
   useEffect(() => {
     axios
       .request(options)
       .then(function (response) {
-        console.log(response.data.word);
+        //console.log(response.data.word);
         setrandWord(response.data.word);
       })
       .catch(function (error) {
@@ -45,10 +34,16 @@ function App(): JSX.Element {
   return (
     <div>
       <h1>YAMDLE App</h1>
-      The word of the day is: {randWord}
-      {}
+      <LetterGrid currentGuess = {currentGuess}/>
       <hr/>
-      <Keyboard handlechunk={(chunkbit:string[]) => setchunk(chunkbit) }/>
+      The word of the day is: {randWord}
+      {swich && <h2>You guessed correctly </h2>  }
+      <hr/>
+      <Keyboard randWord = {randWord}
+      handleSwitch={(switcher:boolean)=> setswitch(switcher)}
+      getCurrentGuess = {(guess:string[]) => setCurrentGuess(guess)}
+      getCurrentAttempt = {(attemptNum:number) => setAttempt(attemptNum)}
+      />
     </div>
   );
 }
