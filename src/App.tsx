@@ -7,8 +7,6 @@ function App(): JSX.Element {
   const [randWord, setrandWord] = useState<string[]>([""]);
   const [swich, setswitch] = useState<boolean>(false)
   const [currentGuess, setCurrentGuess] = useState<string[]>([])
-  const [attempt,setAttempt] = useState<number>()
-
   const options = {
     method: "GET",
     url: "https://wordsapiv1.p.rapidapi.com/words/",
@@ -42,7 +40,7 @@ function App(): JSX.Element {
       <Keyboard randWord = {randWord}
       handleSwitch={(switcher:boolean)=> setswitch(switcher)}
       getCurrentGuess = {(guess:string[]) => setCurrentGuess(guess)}
-      getCurrentAttempt = {(attemptNum:number) => setAttempt(attemptNum)}
+      /*getCurrentAttempt = {(attemptNum:number) => setAttempt(attemptNum)}*/
       />
     </div>
   );
