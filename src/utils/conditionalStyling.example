@@ -1,0 +1,20 @@
+    // const Boxes: React.CSSProperties[] = [{
+    //     backgroundColor: "rgb(8, 4, 12)",
+    //     color:truthyArray[0]? "yellow":"white"
+    // },
+    // {
+    //     backgroundColor: "rgb(8, 4, 12)",
+    //     color: truthyArray[1]? "yellow":"white"
+    // },
+    // {
+    //     backgroundColor: "rgb(8, 4, 12)",
+    //     color: truthyArray[2]? "yellow":"white"
+    // },
+    // {
+    //     backgroundColor: "rgb(8, 4, 12)",
+    //     color: truthyArray[3]? "yellow":"white",
+        
+    // },{
+    //     backgroundColor: "rgb(8, 4, 12)",
+    //     color: truthyArray[4]? "yellow":"white"
+    // }];

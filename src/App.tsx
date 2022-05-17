@@ -7,6 +7,7 @@ function App(): JSX.Element {
   const [randWord, setrandWord] = useState<string[]>([""]);
   const [swich, setswitch] = useState<boolean>(false)
   const [currentGuess, setCurrentGuess] = useState<string[]>([])
+  const [truthyArrayCss,setTruthyArrayCss] = useState<number[][]>([])
   const options = {
     method: "GET",
     url: "https://wordsapiv1.p.rapidapi.com/words/",
@@ -27,20 +28,27 @@ function App(): JSX.Element {
       .catch(function (error) {
         console.error(error);
       });
+// eslint-disable-next-line
   }, []);
 
   return (
     <div>
       <h1>YAMDLE App</h1>
-      <LetterGrid currentGuess = {currentGuess}/>
-      <hr/>
-      The word of the day is: {randWord}
+      <LetterGrid 
+      currentGuess = {currentGuess}
+      truthyArray = {truthyArrayCss}
+      />
+      {/* <hr/> */}
+      {/* The word of the day is: {randWord} */}
       {swich && <h2>You guessed correctly </h2>  }
-      <hr/>
+      {/* <hr/> */}
       <Keyboard randWord = {randWord}
+      currentGuess = {currentGuess}
+      swich = {swich}
       handleSwitch={(switcher:boolean)=> setswitch(switcher)}
       getCurrentGuess = {(guess:string[]) => setCurrentGuess(guess)}
-      /*getCurrentAttempt = {(attemptNum:number) => setAttempt(attemptNum)}*/
+      getTruthyArray = {(truthyArray:number[][])=> setTruthyArrayCss(prevarray=> [...prevarray, truthyArray[0]])}
+      truthyArray = {truthyArrayCss}
       />
     </div>
   );

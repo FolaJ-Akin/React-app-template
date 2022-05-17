@@ -1,6 +1,6 @@
 import alphabetObject from "./alphabetInterface";
 
-const alphabet = "qwertyuiopasdfghjklzxcvbnm"
+const alphabet = "qwertyuiopasdfghjklzxcvbnm".toUpperCase()
 const alphabetArray = alphabet.split('')
 const alphabetObjectarray: alphabetObject[] = []
 for( const indv of alphabetArray){

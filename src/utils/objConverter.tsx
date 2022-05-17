@@ -8,7 +8,7 @@ function objConverter(attemptArray:string[]):alphabetObject[]{
             letter: "",
             id: 0
         };
-    indvattemptObject["letter"] = indv
+    indvattemptObject["letter"] = indv.toUpperCase()
     indvattemptObject["id"]= count
     attemptObjectarray.push(indvattemptObject)
     count += 1;
