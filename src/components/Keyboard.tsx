@@ -8,7 +8,8 @@ interface prop {
   //setchunk?:string[]
   //handlechunk(chunkbit: string[]):void;
   randWord: string[];
-  currentGuess: string[];
+  attempt: number;
+  setAttempt(attemptNum: number): void;
   handleSwitch(switcher: boolean): void;
   getCurrentGuess(guess: string[]): void;
   getTruthyArray(truthyArray: number[][]): void;
@@ -22,10 +23,10 @@ export default function Keyboard({
   handleSwitch,
   getCurrentGuess,
   getTruthyArray,
-  currentGuess,
+  setAttempt,
+  attempt,
 }: prop): JSX.Element {
   const [letterarray, setletterarray] = useState<string[]>([]);
-  const [attempt, setAttempt] = useState<number>(0);
   const [wrongLettersArray, setwrongLettersArray] = useState<string[]>([]);
 
   //console.log("this random word from keyboard", randWord)
