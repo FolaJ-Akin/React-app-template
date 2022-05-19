@@ -8,6 +8,9 @@ function App(): JSX.Element {
   const [swich, setswitch] = useState<boolean>(false);
   const [currentGuess, setCurrentGuess] = useState<string[]>([]);
   const [truthyArrayCss, setTruthyArrayCss] = useState<number[][]>([]);
+  const [attempt, setAttempt] = useState<number>(0);
+  const [change, setchange] = useState<number>(0);
+
   const options = {
     method: "GET",
     url: "https://wordsapiv1.p.rapidapi.com/words/",
@@ -17,19 +20,50 @@ function App(): JSX.Element {
       "X-RapidAPI-Key": "34d2ff4367msh223c9f3ef28bc86p15a053jsnba862eab98be",
     },
   };
+  const dictreq = {
+    method: "GET",
+    url: `https://api.dictionaryapi.dev/api/v2/entries/en/${randWord}`,
+  };
 
   useEffect(() => {
     axios
       .request(options)
       .then(function (response) {
-        //console.log(response.data.word);
+        console.log(response.data);
         setrandWord(response.data.word);
+        //setrandWord(["","","","",""])
       })
+
       .catch(function (error) {
         console.error(error);
       });
+
     // eslint-disable-next-line
-  }, []);
+  }, [change]);
+
+  useEffect(() => {
+    console.log(randWord);
+    axios
+      .request(dictreq)
+      .then(function (response) {
+        console.log("inside dictreq:", response.data);
+      })
+      .catch((err) => {
+        console.error("error from getting dictionary", err);
+        setchange(change + 1);
+      });
+    // eslint-disable-next-line
+  }, [randWord]);
+
+  const attemptNum = (attempt: number): number => {
+    let count;
+    if (attempt < 1) {
+      count = 1;
+    } else {
+      count = attempt / 5 + 1;
+    }
+    return count;
+  };
 
   return (
     <div>
@@ -37,12 +71,16 @@ function App(): JSX.Element {
       <LetterGrid currentGuess={currentGuess} truthyArray={truthyArrayCss} />
       {/* <hr/> */}
       {/* The word of the day is: {randWord} */}
-      {swich && <h2>You guessed correctly </h2>}
+      {swich && (
+        <h2>You guessed correctly in {attemptNum(attempt)}/6 Guesses</h2>
+      )}
+      {!swich && attempt === 30 && <h2>The correct word was: {randWord}</h2>}
       {/* <hr/> */}
       <Keyboard
         randWord={randWord}
-        currentGuess={currentGuess}
         swich={swich}
+        attempt={attempt}
+        setAttempt={(attemptNum: number) => setAttempt(attemptNum)}
         handleSwitch={(switcher: boolean) => setswitch(switcher)}
         getCurrentGuess={(guess: string[]) => setCurrentGuess(guess)}
         getTruthyArray={(truthyArray: number[][]) =>
