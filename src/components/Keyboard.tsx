@@ -2,6 +2,7 @@ import { useState } from "react";
 import alphabetObjectarray from "../utils/alphabetObjectArray";
 import alphabetObject from "../utils/alphabetInterface";
 import checkContained from "../utils/checkLettersContains";
+import checkKeyboard from "../utils/checkKeyboard";
 
 interface prop {
   //setchunk?:string[]
@@ -25,11 +26,12 @@ export default function Keyboard({
 }: prop): JSX.Element {
   const [letterarray, setletterarray] = useState<string[]>([]);
   const [attempt, setAttempt] = useState<number>(0);
+  const [wrongLettersArray, setwrongLettersArray] = useState<string[]>([]);
 
   //console.log("this random word from keyboard", randWord)
   function checkAnswer(chunk: string[]) {
     if (chunk.length % 5 === 0 && chunk.length > 0) {
-      if (chunk.join("") === randWord.toString()) {
+      if (chunk.join("") === randWord.toString().toUpperCase()) {
         return true;
       } else {
         if (attempt < 30) {
@@ -43,7 +45,6 @@ export default function Keyboard({
       return false;
     }
   }
-
   const handleEnter = () => {
     const ans = letterarray.slice(attempt, attempt + 5);
     handleSwitch(checkAnswer(ans));
@@ -53,12 +54,41 @@ export default function Keyboard({
         letterarray.slice(attempt, attempt + 5),
         randWord
       );
+      const newWrongletters = checkKeyboard(
+        letterarray.slice(attempt, attempt + 5),
+        randWord
+      );
+      console.log("newWrongletters", newWrongletters);
+      setwrongLettersArray([...wrongLettersArray, ...newWrongletters]);
       getTruthyArray([cssTruthyArray]);
       //console.log("cssTruthyArray",cssTruthyArray)
       //console.log("truthyarray[][]",truthyArray)
       //console.log("truthyArray[0]",truthyArray[0]?truthyArray[0][0]:"Box")
     }
   };
+
+  const empty = [];
+  for (let i = 0; i < 26; i++) {
+    empty.push([0]);
+  }
+
+  function transformClass(
+    wrongLetters: string[],
+    alphabetArray: alphabetObject[],
+    classArr: number[][]
+  ) {
+    let count = 0;
+
+    for (const oneObject of alphabetArray) {
+      count += 1;
+      for (const letter of wrongLetters) {
+        if (oneObject.letter === letter) {
+          if (classArr) classArr[count - 1][0] = 1;
+        }
+      }
+    }
+    return classArr;
+  }
 
   const handleOnletterClick = (oneletter: string) => {
     if (letterarray.length < attempt + 5 && letterarray.length < 30 && !swich) {
@@ -79,6 +109,13 @@ export default function Keyboard({
 
     //console.log("handleback space was clicked", prevLetterarray)
   };
+
+  const emptyfinal = transformClass(
+    wrongLettersArray,
+    alphabetObjectarray,
+    empty
+  );
+
   const stylebackspace = {
     width: 85,
     height: 90,
@@ -97,7 +134,7 @@ export default function Keyboard({
         <div className="row1">
           {alphabetObjectarray.slice(0, 10).map((oneletter: alphabetObject) => (
             <div
-              className="CharKey"
+              className={"CharKey" + emptyfinal[oneletter.id - 1]}
               key={oneletter.id}
               onClick={() => handleOnletterClick(oneletter.letter)}
             >
@@ -110,7 +147,7 @@ export default function Keyboard({
             .slice(10, 19)
             .map((oneletter: alphabetObject) => (
               <div
-                className="CharKey"
+                className={"CharKey" + emptyfinal[oneletter.id - 1]}
                 key={oneletter.id}
                 onClick={() => handleOnletterClick(oneletter.letter)}
               >
@@ -128,7 +165,7 @@ export default function Keyboard({
             .slice(19, 26)
             .map((oneletter: alphabetObject) => (
               <div
-                className="CharKey"
+                className={"CharKey" + emptyfinal[oneletter.id - 1]}
                 key={oneletter.id}
                 onClick={() => handleOnletterClick(oneletter.letter)}
               >
