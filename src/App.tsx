@@ -3,8 +3,9 @@ import axios from "axios";
 import Keyboard from "./components/Keyboard";
 import LetterGrid from "./components/LetterGrid";
 
+
 function App(): JSX.Element {
-  const [randWord, setrandWord] = useState<string[]>([""]);
+  const [randWord, setrandWord] = useState<string[]>(["eelam"]);
   const [swich, setswitch] = useState<boolean>(false);
   const [currentGuess, setCurrentGuess] = useState<string[]>([]);
   const [truthyArrayCss, setTruthyArrayCss] = useState<number[][]>([]);
@@ -29,27 +30,20 @@ function App(): JSX.Element {
     axios
       .request(options)
       .then(function (response) {
-        console.log(response.data);
         setrandWord(response.data.word);
-        //setrandWord(["","","","",""])
       })
 
       .catch(function (error) {
-        console.error(error);
+        //console.error(error);
       });
 
     // eslint-disable-next-line
   }, [change]);
 
   useEffect(() => {
-    console.log(randWord);
     axios
       .request(dictreq)
-      .then(function (response) {
-        console.log("inside dictreq:", response.data);
-      })
-      .catch((err) => {
-        console.error("error from getting dictionary", err);
+      .catch(() => {
         setchange(change + 1);
       });
     // eslint-disable-next-line

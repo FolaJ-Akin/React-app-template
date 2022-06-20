@@ -8,7 +8,6 @@ export default function LetterGrid({
   currentGuess,
   truthyArray,
 }: props): JSX.Element {
-  //console.log(currentGuess)
   const intermeditate = ["", "", "", "", "", ""];
 
   function transform(slice: string[], interSlice: string[]) {
@@ -19,7 +18,6 @@ export default function LetterGrid({
     }
     return interSlice;
   }
-  // let lineOne = intermeditate.slice(0,5)
   const layerOne = transform(
     currentGuess.slice(0, 5),
     intermeditate.slice(0, 5)
