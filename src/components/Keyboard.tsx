@@ -1,6 +1,6 @@
 import { useState } from "react";
 import alphabetObjectarray from "../utils/alphabetObjectArray";
-import {alphabetObject} from "../utils/alphabetInterface";
+import { alphabetObject } from "../utils/alphabetInterface";
 import checkContained from "../utils/checkLettersContains";
 import axios from "axios";
 import classidObjBuilder from "../utils/classIdObjBuilder";
@@ -23,11 +23,11 @@ export default function Keyboard({
   getTruthyArray,
   setAttempt,
   attempt,
-  truthyArray
+  truthyArray,
 }: prop): JSX.Element {
   const [letterarray, setletterarray] = useState<string[]>([]);
-  const [classid,setclassid] = useState<alphabetObject[]>([])
-  
+  const [classid, setclassid] = useState<alphabetObject[]>([]);
+
   function checkAnswer(chunk: string[]) {
     if (chunk.length % 5 === 0 && chunk.length > 0) {
       if (chunk.join("") === randWord.toString().toUpperCase()) {
@@ -44,42 +44,50 @@ export default function Keyboard({
       return false;
     }
   }
-  const currentAnswer = letterarray.slice(attempt, attempt + 5)
-  function goodRequest () {
+  const currentAnswer = letterarray.slice(attempt, attempt + 5);
+  function goodRequest() {
     if (currentAnswer.length > 4) {
-      const cssTruthyArray = checkContained(
-        currentAnswer,
-        randWord
-      );
-      const collectionArr = classidObjBuilder(currentAnswer,randWord)
-      handleCollection(collectionArr,classid)
-      setclassid([...classid,...collectionArr])
+      const cssTruthyArray = checkContained(currentAnswer, randWord);
+      const collectionArr = classidObjBuilder(currentAnswer, randWord);
+      handleCollection(collectionArr, classid);
+      setclassid([...classid, ...collectionArr]);
       getTruthyArray([cssTruthyArray]);
     }
   }
-  function handleCollection (collectionArr:alphabetObject[],classid:alphabetObject[]){
-    let count=-1;
-    for(const item of classid){
-      count +=1;
-      for(const value of collectionArr){
-        if(item.letter===value.letter){
-          if(item.classId===1&&value.classId===2){
-            classid.splice(count,1)
-          } 
+  function handleCollection(
+    collectionArr: alphabetObject[],
+    classid: alphabetObject[]
+  ) {
+    let count = -1;
+    for (const item of classid) {
+      count += 1;
+      for (const value of collectionArr) {
+        if (item.letter === value.letter) {
+          if (item.classId === 1 && value.classId === 2) {
+            classid.splice(count, 1);
+          }
         }
       }
     }
   }
 
-  function  realWordCheck() {
+  function realWordCheck() {
     axios
-      .get(`https://api.dictionaryapi.dev/api/v2/entries/en/${currentAnswer.join('').toLowerCase()}`)
-      .then( ()=>{
-       goodRequest();
-       handleSwitch(checkAnswer(currentAnswer))
+      .get(
+        `https://api.dictionaryapi.dev/api/v2/entries/en/${currentAnswer
+          .join("")
+          .toLowerCase()}`
+      )
+      .then(() => {
+        goodRequest();
+        handleSwitch(checkAnswer(currentAnswer));
       })
       .catch(() => {
-        window.alert(`Oi yammm! '${currentAnswer.join('').toLowerCase()}' isn't a real word!!!`);
+        window.alert(
+          `Oi yammm! '${currentAnswer
+            .join("")
+            .toLowerCase()}' isn't a real word!!!`
+        );
       });
     // eslint-disable-next-line
   }
@@ -98,25 +106,21 @@ export default function Keyboard({
       setletterarray([...prevLetterarray]);
       getCurrentGuess([...prevLetterarray]);
     }
-
   };
 
-
-
-
-  function find(oneletter:alphabetObject){
-    for(const classobj of classid){
-      if(oneletter.id === classobj.id){
-        if(classobj.classId===undefined){
-          return "CharKey"
-        }else if(classobj.classId===0){
-          return "CharKey0"
-        }else if (classobj.classId){
-          return  "CharKey"+classobj.classId
+  function find(oneletter: alphabetObject) {
+    for (const classobj of classid) {
+      if (oneletter.id === classobj.id) {
+        if (classobj.classId === undefined) {
+          return "CharKey";
+        } else if (classobj.classId === 0) {
+          return "CharKey0";
+        } else if (classobj.classId) {
+          return "CharKey" + classobj.classId;
         }
       }
     }
-    return "CharKey"
+    return "CharKey";
   }
   const stylebackspace = {
     width: 85,

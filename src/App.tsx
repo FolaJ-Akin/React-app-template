@@ -3,7 +3,6 @@ import axios from "axios";
 import Keyboard from "./components/Keyboard";
 import LetterGrid from "./components/LetterGrid";
 
-
 function App(): JSX.Element {
   const [randWord, setrandWord] = useState<string[]>(["eelam"]);
   const [swich, setswitch] = useState<boolean>(false);
@@ -41,11 +40,9 @@ function App(): JSX.Element {
   }, [change]);
 
   useEffect(() => {
-    axios
-      .request(dictreq)
-      .catch(() => {
-        setchange(change + 1);
-      });
+    axios.request(dictreq).catch(() => {
+      setchange(change + 1);
+    });
     // eslint-disable-next-line
   }, [randWord]);
 
