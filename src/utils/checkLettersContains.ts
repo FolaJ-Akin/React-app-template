@@ -6,11 +6,7 @@ export default function checkContained(
   const objLetterArray = objConverter(letterarray);
   const objCurrentWord = objConverter(currentWord);
   const truthyArray = [];
-  //let letter
-  console.log("objLetterArray", objLetterArray);
-  console.log("objCurrentWord", objCurrentWord);
   for (let i = 0; i < 5; i++) {
-    console.log("start of itter", i);
     if (
       objLetterArray[i].id === objCurrentWord[i].id &&
       objLetterArray[i].letter === objCurrentWord[i].letter
@@ -21,8 +17,6 @@ export default function checkContained(
     } else {
       truthyArray.push(0);
     }
-    console.log(truthyArray);
-    console.log("End of itter", i);
   }
   return truthyArray;
 }

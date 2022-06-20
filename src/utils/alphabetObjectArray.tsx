@@ -1,4 +1,4 @@
-import alphabetObject from "./alphabetInterface";
+import { alphabetObject } from "./alphabetInterface";
 
 const alphabet = "qwertyuiopasdfghjklzxcvbnm".toUpperCase();
 const alphabetArray = alphabet.split("");
